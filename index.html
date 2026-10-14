@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#e9edda" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="En väg full av under. Kör genom fem levande fantasivärldar i VROOZYs originella 3D-biläventyr." />
+  <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+  <title>VROOZY 4.0 · Fem världar</title>
+  <script type="module" crossorigin src="./assets/index-BwFV4ABA.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/three-pLWDlPLf.js">
+  <link rel="stylesheet" crossorigin href="./assets/index-54OG42RG.css">
+</head>
+<body>
+  <aside class="desktop-note" aria-hidden="true"><span class="desktop-mark">V.</span><span>EN VÄG<br>FULL AV UNDER.</span><small>Byggt för stående skärmar.<br>← → för provkörning på dator.</small></aside>
+  <main id="app" aria-label="VROOZY biläventyr">
+    <canvas id="scene" aria-label="3D-väg genom Regnbågslandet. Svep vänster eller höger för att styra bilen."></canvas>
+    <div id="loading" class="loading"><span class="loading-mark">V.</span><p>Lite magi är på väg…</p><span class="loading-line"></span></div>
+
+    <section id="home" class="home hidden" aria-label="Startmeny">
+      <div class="home-top"><span class="edition"><i></i> ETT MAGISKT BILÄVENTYR</span><button id="home-settings" class="icon-btn" aria-label="Inställningar">⚙</button></div>
+      <div class="brand"><h1>VROOZY<span>✦</span></h1><p>En väg full av under.</p><div class="chapter"><span>01</span> REGNBÅGSLANDET</div></div>
+      <div class="home-bottom"><div class="record-line"><span>DITT REKORD</span><b id="home-record">0</b><span class="record-unit">POÄNG</span></div>
+        <button id="play" class="primary">Ut på äventyr <span aria-hidden="true">↗</span></button>
+        <p class="feature-guide">Ljusplatta ger boost. Rampen tar dig upp i luften.</p><div class="swipe-guide"><span aria-hidden="true">← <i></i> →</span><p>Svep för att byta körfält<small>ETT SVEP. ETT STEG. TRE LIV.</small></p></div>
+      </div>
+    </section>
+
+    <header id="hud" class="hud hidden">
+      <div class="hud-top"><div class="score-card"><span>POÄNG</span><strong id="score">0</strong></div><div class="hud-right"><div id="lives" class="lives" aria-label="3 liv kvar"><span>♥</span><span>♥</span><span>♥</span></div><button id="pause" class="icon-btn" aria-label="Pausa spelet"><span class="pause-symbol" aria-hidden="true"></span></button></div></div>
+      <div class="world-bar"><div class="world-caption"><span><b id="world-number">01</b> <span id="world-name">REGNBÅGSLANDET</span></span><span id="remaining">3 800 m</span></div><div class="progress-track"><div id="progress"></div></div></div>
+      <div id="road-preview" class="road-preview hidden"><span id="preview-kind">FRAMFÖR DIG</span><div class="preview-sequence" aria-hidden="true"><div class="preview-row"><small>NU</small><div><i class="preview-lane"></i><i class="preview-lane"></i><i class="preview-lane"></i></div></div><div class="preview-row upcoming"><small>SEDAN</small><div><i class="preview-lane"></i><i class="preview-lane"></i><i class="preview-lane"></i></div></div><div class="preview-row upcoming"><small>DÄREFTER</small><div><i class="preview-lane"></i><i class="preview-lane"></i><i class="preview-lane"></i></div></div></div></div>
+    </header>
+    <div id="dashboard" class="dashboard hidden"><div class="speed"><b id="speed">145</b><span>KM/H</span></div><div class="distance"><span id="district">BLOMSTERDALEN</span><b id="distance">0 m</b></div></div>
+    <div id="drive-state" class="drive-state hidden" role="status"></div>
+    <div id="hint" class="drive-hint hidden">← Svep för att styra →</div>
+    <div id="notice" class="notice hidden" role="status" aria-live="polite"></div>
+    <div id="hit-feedback" class="hit-feedback" aria-hidden="true"></div>
+    <div id="countdown" class="countdown hidden" aria-live="polite">3</div>
+
+    <section id="pause-screen" class="overlay hidden" aria-label="Spelet pausat" role="dialog" aria-modal="true">
+      <div class="card"><span class="overline">ETT LITET ANDRUM</span><div class="card-symbol">Ⅱ</div><h2>Vägen väntar.</h2><p id="pause-reason">Ta en paus. Magin finns kvar.</p><button id="resume" class="primary">Fortsätt köra <span>→</span></button><button id="pause-settings" class="secondary">Ljud & inställningar</button><button id="restart" class="text-btn">Börja om från värld 1</button></div>
+    </section>
+
+    <section id="settings-screen" class="overlay hidden" aria-label="Inställningar" role="dialog" aria-modal="true">
+      <div class="card settings-card"><div class="card-top"><span class="overline">GÖR DIG HEMMA</span><button id="close-settings" class="icon-btn" aria-label="Stäng inställningar">×</button></div><h2>Din känsla.</h2><p>Lite lugnare, lite livligare. Du väljer.</p>
+        <label class="setting" for="music"><span>Musik <output id="music-value">35%</output></span><input id="music" type="range" min="0" max="100" step="5" value="35" /></label>
+        <label class="setting" for="effects"><span>Motor & ljudeffekter <output id="effects-value">65%</output></span><input id="effects" type="range" min="0" max="100" step="5" value="65" /></label>
+        <label class="toggle-setting" for="haptics"><span>Vibration vid kollision<small>På enheter som stöder det</small></span><input id="haptics" type="checkbox" checked /></label>
+        <label class="setting" for="quality"><span>Grafik</span><select id="quality"><option value="auto">Automatisk</option><option value="high">Hög detalj</option><option value="low">Batterisnål</option></select></label>
+        <p class="setting-help">Automatisk grafik anpassar detaljnivån när spelet behöver det.</p>
+        <button id="settings-done" class="primary">Så där! <span>✓</span></button>
+      </div>
+    </section>
+
+    <section id="gameover" class="overlay hidden" aria-label="Omgången avslutad" role="dialog" aria-modal="true"><div class="card result-card"><span class="overline" id="result-overline">VILKEN ÅKTUR!</span><div class="card-symbol">✦</div><h2>Ett äventyr till?</h2><p>Varje resa är en ny chans.</p><div class="result-score"><strong id="final-score">0</strong><span>POÄNG</span></div><div class="stats-grid"><div><span>STRÄCKA</span><b id="final-distance">0 m</b></div><div><span>REKORD</span><b id="final-record">0</b></div><div><span>DISTANSREKORD</span><b id="distance-record">0 m</b></div><div><span>VÄRLD</span><b id="final-world">1</b></div></div><small id="run-code" class="run-code"></small><p id="storage-note" class="setting-help hidden">Rekord kan inte sparas i den här webbläsarsessionen.</p><button id="retry" class="primary">En gång till <span>↻</span></button><button id="back-home" class="text-btn">Till startmenyn</button></div></section>
+
+    <section id="rotate" class="rotate hidden" aria-label="Vänd skärmen"><div class="phone-icon">↻</div><h2>Lite mer på höjden.</h2><p>Vänd telefonen eller surfplattan.<br>Äventyret spelas i stående läge.</p></section>
+    <section id="error" class="overlay hidden" role="alert"><div class="card"><span class="card-symbol">☁</span><h2>Magin tog en paus.</h2><p id="error-message">3D-grafiken kunde inte starta.</p><button id="reload" class="primary">Försök igen <span>↻</span></button></div></section>
+  </main>
+  <div class="desktop-caption" aria-hidden="true">VROOZY 4.0 <span>•</span> FEM VÄRLDAR <span>•</span> LOKAL PROVSPELNING</div>
+</body>
+</html>
